@@ -69,6 +69,21 @@ button {
     border: 1px solid black;
 }
 
+.city-name {
+    font-size: 50px;
+}
+
+.city-conditions{
+    display: none;
+    height: 50px;
+    width: 50px;
+}
+
+.search-results-name-container {
+    display: flex;
+    flex-direction: row;
+}
+
 
 .forecast {
     flex-direction: row;

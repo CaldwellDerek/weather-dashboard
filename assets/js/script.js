@@ -3,6 +3,7 @@ let leftSide = document.querySelector('.left-side');
 let searchField = document.querySelector('.search-field');
 let searchButton = document.querySelector('.search-btn');
 let cityName = document.querySelector('.city-name');
+let cityConditions = document.querySelector('.city-conditions');
 let cityTemp = document.querySelector('.city-temp');
 let cityWind = document.querySelector('.city-wind');
 let cityHumidity = document.querySelector('.city-humidity');
@@ -44,7 +45,9 @@ function setSearchHistoryButtons() {
 
 // FUNCTION TO UPDATE THE CURRENT WEATHER FOR THE CITY 
 function setWeatherToday(fetchedData){
-    cityName.textContent = `${fetchedData.name} ${dayjs().format("MM/DD/YYYY")}`
+    cityName.textContent = `${fetchedData.name} ${dayjs().format("MM/DD/YYYY")} `
+    cityConditions.setAttribute("src", `http://openweathermap.org/img/wn/${fetchedData.weather[0].icon}@2x.png`); 
+    cityConditions.setAttribute("style", "display: block;")
     cityTemp.textContent = `Temp: ${fetchedData.main.temp} \u00B0F`;
     cityWind.textContent = `Wind: ${fetchedData.wind.speed} MPH`;
     cityHumidity.textContent = `Humidity: ${fetchedData.main.humidity} %`;
@@ -61,7 +64,7 @@ function setWeatherForecast(obj) {
     forecastDate.textContent = dayjs(obj.dt_txt).format("MM/DD/YYYY");
 
     let forecastImage = document.createElement('img');
-    forecastImage.src = "https://via.placeholder.com/25";
+    forecastImage.src = `http://openweathermap.org/img/wn/${obj.weather[0].icon}@2x.png`;
 
     let forecastTemp = document.createElement('p');
     forecastTemp.textContent = `Temp: ${obj.main.temp}`;
@@ -97,7 +100,6 @@ function getData(searchedCity) {
                 return response.json();
             })
             .then( (data)=> {
-                console.log(data);
                 setWeatherToday(data);
             });
 
@@ -110,7 +112,6 @@ function getData(searchedCity) {
                     if (dayjs(child.dt_txt).format("HH") == 12){
                         setWeatherForecast(child);
                     }
-                    
                 }
             });
 
