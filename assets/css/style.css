@@ -4,8 +4,12 @@
     box-sizing: border-box;
 }
 
+body {
+    background-color: #B0A990;
+}
+
 header {
-    background-color: #0A4148;
+    background-color: #202030;
     color: white;
     height: 200px;
     display: flex;
@@ -15,6 +19,9 @@ header {
 
 button {
     margin-top: 10px;
+    border-radius: 5px;
+    background-color: #39304A;
+    color: white;
 }
 
 .container{
@@ -38,6 +45,12 @@ button {
 .left-side input,
 .left-side button{
     margin-bottom: 10px;
+}
+
+.search-field{
+    background-color: #635C51;
+    border-radius: 5px;
+    color: white;
 }
 
 .search-container {
@@ -65,8 +78,9 @@ button {
 .search-results{
     flex-direction: column;
     justify-content: space-around;
-    padding-left: 5px;
+    padding-left: 15px;
     border: 1px solid black;
+    border-radius: 10px;
 }
 
 .city-name {
@@ -93,12 +107,13 @@ button {
 .card {
     height: 200px;
     width: 175px;
-    background-color: black;
+    background-color: #39304A;
     color: white;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     padding-left: 20px;
+    border-radius: 5px;
 }
 
 .card img {

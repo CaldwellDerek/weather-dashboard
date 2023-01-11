@@ -25,6 +25,8 @@ searchButton.addEventListener('click', ()=> {
         searchResult.addEventListener('click', ()=> {
             getData(searchResult.textContent);
         })
+
+        searchField.value = "";
     } else {
         return;
     }
