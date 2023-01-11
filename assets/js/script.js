@@ -18,13 +18,13 @@ let forecast = document.querySelector('.forecast');
 //     });
 
 searchButton.addEventListener('click', ()=> {
-    // if (searchField.value) {
-    //     let searchResult = document.createElement('button');
-    //     searchResult.textContent = searchField.value;
-    //     leftSide.append(searchResult);
-    // } else {
-    //     return;
-    // }
+    if (searchField.value) {
+        let searchResult = document.createElement('button');
+        searchResult.textContent = searchField.value;
+        leftSide.append(searchResult);
+    } else {
+        return;
+    }
     
     // Stores the value from the Search Field to be used in the fetch statements
     let cityName = searchField.value;
@@ -47,6 +47,16 @@ searchButton.addEventListener('click', ()=> {
                 setWeatherToday(data);
             });
 
+            fetch(`http://api.openweathermap.org/data/2.5/forecast?lat=${cityLatitude}&lon=${cityLongitude}&units=imperial&appid=a4d8e373cfe9f576408638aa9dba13f8`)
+            .then( (response)=> {
+                return response.json();
+            })
+            .then( (data)=> {
+                for (let index = 0; index < 5; index++){
+                    setWeatherForecast(data.list[index]);
+                }
+            });
+
         });
     
     
@@ -63,26 +73,25 @@ function setWeatherToday(fetchedData){
 
 // FUNCTION TO CREATE CARD AND APPEND IT TO FORECAST SECTION
 
-// function createCard() {
-//     let container = document.createElement('div');
-//     container.setAttribute("class", "card");
+function setWeatherForecast(obj) {
+    let container = document.createElement('div');
+    container.setAttribute("class", "card");
 
-//     let forecastDate = document.createElement('h3');
-//     forecastDate.textContent = "TEST DATE";
+    let forecastDate = document.createElement('h3');
+    forecastDate.textContent = obj.dt_txt;
 
-//     let forecastImage = document.createElement('img');
-//     forecastImage.src = "https://via.placeholder.com/25";
+    let forecastImage = document.createElement('img');
+    forecastImage.src = "https://via.placeholder.com/25";
 
-//     let forecastTemp = document.createElement('p');
-//     forecastTemp.textContent = "TEST TEMP";
+    let forecastTemp = document.createElement('p');
+    forecastTemp.textContent = obj.main.temp;
 
-//     let forecastWind = document.createElement('p');
-//     forecastWind.textContent = "TEST WIND";
+    let forecastWind = document.createElement('p');
+    forecastWind.textContent = obj.wind.speed;
 
-//     let forecastHumidity = document.createElement('p');
-//     forecastHumidity.textContent = "TEST HUMIDITY";
+    let forecastHumidity = document.createElement('p');
+    forecastHumidity.textContent = obj.main.humidity;
 
-//     container.append(forecastDate, forecastImage, forecastTemp, forecastWind, forecastHumidity);
-
-//     forecast.append(container);
-// }
+    container.append(forecastDate, forecastImage, forecastTemp, forecastWind, forecastHumidity);
+    forecast.append(container);
+}
