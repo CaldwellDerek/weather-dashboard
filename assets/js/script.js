@@ -9,17 +9,29 @@ let cityHumidity = document.querySelector('.city-humidity');
 
 let forecast = document.querySelector('.forecast');
 
+setSearchHistoryButtons();
+
 searchButton.addEventListener('click', ()=> {
     if (searchField.value) {
         getData();
         let searchResult = document.createElement('button');
+        searchResult.setAttribute("class", "search-result-button");
         searchResult.textContent = searchField.value;
+        localStorage.setItem(`${searchField.value}`, `${searchField.value}`);
         leftSide.append(searchResult);
     } else {
         return;
     }
 })
 
+// FUNCTION TO ADD PREVIOUSLY SEARCHED CITIES AS BUTTONS
+function setSearchHistoryButtons() {
+    for (let x = 0; x < localStorage.length; x++){
+        let searchResult = document.createElement('button');
+        searchResult.textContent = localStorage.key(x);
+        leftSide.append(searchResult);
+    }
+}
 
 // FUNCTION TO UPDATE THE CURRENT WEATHER FOR THE CITY 
 function setWeatherToday(fetchedData){
@@ -55,7 +67,7 @@ function setWeatherForecast(obj) {
     forecast.append(container);
 }
 
-// PROVIDES FETCH DATA BASED OFF OF USER SEARCH
+// PROVIDES FETCH DATA BASED OFF OF USER SEARCH AND UPDATES CURRENT WEATHER AS WELL AS FORECAST INFORMATION
 function getData() {
     // Removes any previous forecast information so new cards can be added
     while (forecast.children[0]){
