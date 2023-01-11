@@ -88,7 +88,7 @@ function getData(searchedCity) {
         forecast.children[0].remove();
     }
     // Fetches Geo Coordinates based off of the value user entered in the Search Field
-    fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${searchedCity}&limit=1&appid=a4d8e373cfe9f576408638aa9dba13f8`)
+    fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${searchedCity}&limit=1&appid=a4d8e373cfe9f576408638aa9dba13f8`)
         .then( (response)=> {
             return response.json();
         })
@@ -97,7 +97,7 @@ function getData(searchedCity) {
             let cityLatitude = data[0].lat;
             let cityLongitude = data[0].lon;
             // Uses the Latitude and Longitude to get the current weather information for the city
-            fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${cityLatitude}&lon=${cityLongitude}&units=imperial&appid=a4d8e373cfe9f576408638aa9dba13f8`)
+            fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${cityLatitude}&lon=${cityLongitude}&units=imperial&appid=a4d8e373cfe9f576408638aa9dba13f8`)
             .then( (response)=> {
                 return response.json();
             })
@@ -105,7 +105,7 @@ function getData(searchedCity) {
                 setWeatherToday(data);
             });
 
-            fetch(`http://api.openweathermap.org/data/2.5/forecast?lat=${cityLatitude}&lon=${cityLongitude}&units=imperial&appid=a4d8e373cfe9f576408638aa9dba13f8`)
+            fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${cityLatitude}&lon=${cityLongitude}&units=imperial&appid=a4d8e373cfe9f576408638aa9dba13f8`)
             .then( (response)=> {
                 return response.json();
             })
