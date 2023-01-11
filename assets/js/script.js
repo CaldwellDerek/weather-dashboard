@@ -57,6 +57,10 @@ function setWeatherForecast(obj) {
 
 // PROVIDES FETCH DATA BASED OFF OF USER SEARCH
 function getData() {
+    // Removes any previous forecast information so new cards can be added
+    while (forecast.children[0]){
+        forecast.children[0].remove();
+    }
     // Stores the value from the Search Field to be used in the fetch statements
     let cityName = searchField.value;
     // Fetches Geo Coordinates based off of the value user entered in the Search Field
