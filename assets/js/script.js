@@ -1,35 +1,44 @@
+// VARIABLES ASSIGNED FROM CORRESPONDING HTML DOC ELEMENTS
 let leftSide = document.querySelector('.left-side');
 let searchField = document.querySelector('.search-field');
 let searchButton = document.querySelector('.search-btn');
-
 let cityName = document.querySelector('.city-name');
 let cityTemp = document.querySelector('.city-temp');
 let cityWind = document.querySelector('.city-wind');
 let cityHumidity = document.querySelector('.city-humidity');
-
 let forecast = document.querySelector('.forecast');
 
+// SETS SEARCH HISTORY BUTTONS FROM LOCAL STORAGE
 setSearchHistoryButtons();
 
+// ADDS CLICK EVENT TO SEARCH BUTTON TO RETRIEVE DATA BASED OFF OF USER ENTERED VALUE AND CREATES A BUTTON FOR THE SEARCH HISTORY - STORES SEARCHED VALUE IN LOCAL STORAGE3
 searchButton.addEventListener('click', ()=> {
     if (searchField.value) {
-        getData();
+        getData(searchField.value);
         let searchResult = document.createElement('button');
         searchResult.setAttribute("class", "search-result-button");
         searchResult.textContent = searchField.value;
         localStorage.setItem(`${searchField.value}`, `${searchField.value}`);
         leftSide.append(searchResult);
+
+        searchResult.addEventListener('click', ()=> {
+            getData(searchResult.textContent);
+        })
     } else {
         return;
     }
 })
 
-// FUNCTION TO ADD PREVIOUSLY SEARCHED CITIES AS BUTTONS
+// FUNCTION TO ADD PREVIOUSLY SEARCHED CITIES AS BUTTONS FROM LOCAL STORAGE
 function setSearchHistoryButtons() {
     for (let x = 0; x < localStorage.length; x++){
-        let searchResult = document.createElement('button');
-        searchResult.textContent = localStorage.key(x);
-        leftSide.append(searchResult);
+        let previousSearchResult = document.createElement('button');
+        previousSearchResult.textContent = localStorage.key(x);
+        leftSide.append(previousSearchResult);
+
+        previousSearchResult.addEventListener('click', ()=>{
+            getData(previousSearchResult.textContent);
+        })
     }
 }
 
@@ -68,15 +77,13 @@ function setWeatherForecast(obj) {
 }
 
 // PROVIDES FETCH DATA BASED OFF OF USER SEARCH AND UPDATES CURRENT WEATHER AS WELL AS FORECAST INFORMATION
-function getData() {
+function getData(searchedCity) {
     // Removes any previous forecast information so new cards can be added
     while (forecast.children[0]){
         forecast.children[0].remove();
     }
-    // Stores the value from the Search Field to be used in the fetch statements
-    let cityName = searchField.value;
     // Fetches Geo Coordinates based off of the value user entered in the Search Field
-    fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=a4d8e373cfe9f576408638aa9dba13f8`)
+    fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${searchedCity}&limit=1&appid=a4d8e373cfe9f576408638aa9dba13f8`)
         .then( (response)=> {
             return response.json();
         })
