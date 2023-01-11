@@ -27,7 +27,7 @@ After searching for a city, the the city is saved as another button below "Searc
 
 This project can be viewed at the following:
 
-https://caldwellderek.github.io/work-day-scheduler/
+https://caldwellderek.github.io/weather-dashboard/
 
 ## Credits
 N/A
