@@ -9,23 +9,54 @@ let cityHumidity = document.querySelector('.city-humidity');
 
 let forecast = document.querySelector('.forecast');
 
-// fetch("http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}")
-//     .then( (response)=> {
-//         return response.json();
-//     })
-//     .then( (data)=> {
-//         console.log(data);
-//     });
-
 searchButton.addEventListener('click', ()=> {
     if (searchField.value) {
+        getData();
         let searchResult = document.createElement('button');
         searchResult.textContent = searchField.value;
         leftSide.append(searchResult);
     } else {
         return;
     }
-    
+})
+
+
+// FUNCTION TO UPDATE THE CURRENT WEATHER FOR THE CITY 
+function setWeatherToday(fetchedData){
+    cityName.textContent = `${fetchedData.name} ${dayjs().format("MM/DD/YYYY")}`
+    cityTemp.textContent = `Temp: ${fetchedData.main.temp} \u00B0F`;
+    cityWind.textContent = `Wind: ${fetchedData.wind.speed} MPH`;
+    cityHumidity.textContent = `Humidity: ${fetchedData.main.humidity} %`;
+}
+
+
+
+// FUNCTION TO CREATE CARD AND APPEND IT TO FORECAST SECTION
+function setWeatherForecast(obj) {
+    let container = document.createElement('div');
+    container.setAttribute("class", "card");
+
+    let forecastDate = document.createElement('h3');
+    forecastDate.textContent = dayjs(obj.dt_txt).format("MM/DD/YYYY");
+
+    let forecastImage = document.createElement('img');
+    forecastImage.src = "https://via.placeholder.com/25";
+
+    let forecastTemp = document.createElement('p');
+    forecastTemp.textContent = `Temp: ${obj.main.temp}`;
+
+    let forecastWind = document.createElement('p');
+    forecastWind.textContent = `Wind: ${obj.wind.speed}`;
+
+    let forecastHumidity = document.createElement('p');
+    forecastHumidity.textContent = `Humidity: ${obj.main.humidity}`;
+
+    container.append(forecastDate, forecastImage, forecastTemp, forecastWind, forecastHumidity);
+    forecast.append(container);
+}
+
+// PROVIDES FETCH DATA BASED OFF OF USER SEARCH
+function getData() {
     // Stores the value from the Search Field to be used in the fetch statements
     let cityName = searchField.value;
     // Fetches Geo Coordinates based off of the value user entered in the Search Field
@@ -58,40 +89,4 @@ searchButton.addEventListener('click', ()=> {
             });
 
         });
-    
-    
-})
-
-function setWeatherToday(fetchedData){
-    cityName.textContent = fetchedData.name;
-    cityTemp.textContent = `Temp: ${fetchedData.main.temp} \u00B0F`;
-    cityWind.textContent = `Wind: ${fetchedData.wind.speed} MPH`;
-    cityHumidity.textContent = `Humidity: ${fetchedData.main.humidity} %`;
-}
-
-
-
-// FUNCTION TO CREATE CARD AND APPEND IT TO FORECAST SECTION
-
-function setWeatherForecast(obj) {
-    let container = document.createElement('div');
-    container.setAttribute("class", "card");
-
-    let forecastDate = document.createElement('h3');
-    forecastDate.textContent = obj.dt_txt;
-
-    let forecastImage = document.createElement('img');
-    forecastImage.src = "https://via.placeholder.com/25";
-
-    let forecastTemp = document.createElement('p');
-    forecastTemp.textContent = obj.main.temp;
-
-    let forecastWind = document.createElement('p');
-    forecastWind.textContent = obj.wind.speed;
-
-    let forecastHumidity = document.createElement('p');
-    forecastHumidity.textContent = obj.main.humidity;
-
-    container.append(forecastDate, forecastImage, forecastTemp, forecastWind, forecastHumidity);
-    forecast.append(container);
 }
