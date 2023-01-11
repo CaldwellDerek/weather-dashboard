@@ -83,8 +83,11 @@ function getData() {
                 return response.json();
             })
             .then( (data)=> {
-                for (let index = 0; index < 5; index++){
-                    setWeatherForecast(data.list[index]);
+                for (let child of data.list){
+                    if (dayjs(child.dt_txt).format("HH") == 12){
+                        setWeatherForecast(child);
+                    }
+                    
                 }
             });
 
